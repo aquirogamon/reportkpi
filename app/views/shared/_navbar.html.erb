@@ -1,0 +1,146 @@
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/dashboard">Dashboard</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="rojo_principal collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a class="dropdown-toggle boton-reporte" data-toggle="dropdown" role="button">Core, Agración e Internet <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a><%= link_to "Core IP/MPLS", core_interfaces_path %></a>
+            </li>
+            <li>
+              <a><%= link_to "Internet", internet_interfaces_path %></a>
+            </li>
+            <li>
+              <a><%= link_to "Agregación", preagg_interfaces_path %></a>
+            </li>
+            <li>
+              <a><%= link_to "IPRAN Edge", ipranedge_interfaces_path %></a>
+            </li>
+            <li>
+              <a><%= link_to "QoS Egress NET - Nokia", iprannet_qosegressinterfaces_path %></a>
+            </li>
+            <li>
+              <a><%= link_to "QoS Ingress NET - Nokia", iprannet_qosingressinterfaces_path %></a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle boton-reporte" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acceso y MW <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a><%= "Equipos de Acceso" %></a>
+            </li>
+            <li>
+              <a><%= "MicroOndas Huawei" %></a>
+            </li>
+            <li>
+              <a><%= "MicroOndas Nokia" %></a>
+            </li>
+            <li>
+              <a><%= link_to "STATUS de Puertos Nokia", statusnokia_ports_path %></a>
+            </li>
+            <li>
+              <a><%= link_to "QoS Egress SAP - Nokia", ipranaccess_qosegressinterfaces_path %></a>
+            </li>
+            <li>
+              <a><%= link_to "QoS Ingress SAP - Nokia", ipranaccess_qosingressinterfaces_path %></a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle boton-reporte" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reporte de Servicios Internos <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a><%= link_to "Reportes de CAC", cpecac_interfaces_path %></a>
+            </li>
+            <li>
+              <a><%= "Reportes de CMTS" %></a>
+            </li>
+            <li>
+              <a><%= "Reportes de Packet Core" %></a>
+            </li>
+            <li>
+              <a><%= link_to "Reportes de Accedian", manager_sessions_path %></a>
+            </li>
+          </ul>
+        </li>
+        <% if user_signed_in? && current_user.is_admin_user? %>
+          <li class="dropdown">
+            <a class="dropdown-toggle boton-reporte" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reporte Ejecutivos <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a><%= "Crecimiento de Internet de Acceso" %></a>
+              </li>
+              <li>
+                <a><%= "Tráfico por Punto de Entrega" %></a>
+              </li>
+              <li>
+                <a><%= link_to "Cantidad de enlaces Saturados", summaryreports_utilizationreports_path %></a>
+              </li>
+              <li>
+                <a><%= link_to "Enlaces de Internet - Status", internet_links_path %></a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle boton-reporte" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Enlaces de Directos <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a><%= link_to "Cisco Prime Performance", "https://172.19.212.8:4440" %></a>
+              </li>
+              <li>
+                <a><%= link_to "SAM Web", "http://10.140.255.1" %></a>
+              </li>
+              <li>
+                <a><%= link_to "NSP Web", "https://172.19.147.68" %></a>
+              </li>
+              <li>
+                <a><%= link_to "Reporteador Accedian", "https://172.19.216.90" %></a>
+              </li>
+              <li>
+                <a><%= link_to "MRTG de ATIP", "http://10.192.17.63/acd_index.html" %></a>
+              </li>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if user_signed_in? %>
+          <li class="dropdown">
+            <a class="dropdown-toggle boton-usuario" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.username %><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a><%= current_user.displayname %></a></li>
+              <li><a><%= current_user.title %></a></li>
+              <li>
+                <% if user_signed_in? && current_user.is_admin_user? %>
+                  <a><%= "Usuario de Administración" %></a>
+                <% elsif user_signed_in? && current_user.is_editor_user? %>
+                  <a><%= "Usuario de Escritura" %></a>
+                <% else user_signed_in? && current_user.is_normal_user? %>
+                  <a><%= "Usuario de Lectura" %></a>
+                <% end %>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li><%= link_to "Cerrar Sesión", destroy_user_session_path, method: :delete %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li><%= link_to "Iniciar Sesión", new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

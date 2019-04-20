@@ -1,0 +1,69 @@
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    %h3.margin-top-10
+    %h3
+      Status de Interfaces
+      = link_to 'Excel', statusnokia_ports_path(format: "xls"), class: 'btn btn-sm btn-warning float-right'
+      - if user_signed_in? && current_user.is_admin_user?
+        = link_to 'Actualizar', statusnokia_ports_path, method: :post, class: 'btn btn-sm btn-warning float-right'
+      .updated
+        Actualizado:
+        - unless StatusnokiaPort.last == nil
+          = StatusnokiaPort.last.created_at.strftime("%d/%m/%Y %H:%M:%S")
+        - else
+          '-'
+  .col-md-2
+
+.row.margin-top-02
+  .col-md-1
+  .col-md-10
+    .float-left 
+      = link_to 'Volver', ppmreports_path, class: 'btn btn-sm btn-volver'
+
+.row.margin-top-10.search-form-container
+  .col-md-1
+  .col-md-10
+    = search_form_for @search, url: search_statusnokia_ports_path, method: :post, :html => {:class => "form-horizontal form-row"} do |f|
+      = f.condition_fields do |c|
+        = render 'condition_fields', f: c
+      %p= link_to_add_fields "Agregar", f, :condition
+      .form-row.row_spacer.no-margin
+        Ordenar:
+      .form-inline.field
+        .form-row
+          = f.sort_fields do |s|
+            = s.sort_select({}, :class => 'form-control')
+      .form-row
+        .actions
+          = f.submit "Buscar", class: 'btn btn-sm btn-success row_spacer'
+          = f.submit "Clear", :name => nil, :id => :q_reset, class: 'btn btn-sm btn-info row_spacer'
+
+.row.margin-top-00
+  .col-md-12
+    = will_paginate @statusnokia_ports, renderer: BootstrapPagination::Rails
+    %table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10
+      %thead
+        %tr
+          %th Equipo
+          %th Puerto
+          %th Tipo de Equipo
+          %th Velocidad Configurada (Mbps)
+          %th Tipo de Puerto
+          %th Descripción
+          %th Status
+          %th Servicios
+
+      %tbody
+        - @statusnokia_ports.each do |statusnokia_port|
+          %tr
+            %td= statusnokia_port.device
+            %td= statusnokia_port.port
+            %td= statusnokia_port.type_device
+            %td= statusnokia_port.configurespeed
+            %td= statusnokia_port.speed
+            %td= statusnokia_port.description
+            %td= statusnokia_port.status
+            %td= statusnokia_port.service_all
+
+%br

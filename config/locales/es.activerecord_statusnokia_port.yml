@@ -1,0 +1,11 @@
+es:
+  activerecord:
+    attributes:
+      statusnokia_port:
+        device: "Nombre de Equipo"
+        port: "Purto"
+        type_device: "Tipo de Equipo"
+        configurespeed: "Velocidad configurada"
+        speed: "Tipo de Puerto"
+        status: "Status de Puerto"
+        service_all: "Servicios"

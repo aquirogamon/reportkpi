@@ -1,0 +1,28 @@
+es:
+  activerecord:
+    attributes:
+      statusnokia_port:
+        device: "Nombre de Equipo"
+        port: "Purto"
+        type_device: "Tipo de Equipo"
+        configurespeed: "Velocidad configurada"
+        speed: "Tipo de Puerto"
+        status: "Status de Puerto"
+        service_all: "Servicios"
+es:
+  activerecord:
+    attributes:
+      manager_session:
+        product_endpoint: "Tipo de Equipo"
+        state_endpoint: "Status de Reflector"
+        type_endpoint: "Tipo de Reflector"
+        port_endpoint: "Puerto de Reflector"
+        tos_endpoint: "DSCP de Reflector"
+        sessionType: "Tipo de Sessión"
+        dstEndpoint: "Reflector"
+        dstPort: "Puerto Destino de la Sessión"
+        srcEndpoint: "Actuador"
+        sla: "SLA"
+        status_device: "Status de Equipo"
+        state_session: "Status de Sessión"
+        name_session: "Nombre de Sessión"

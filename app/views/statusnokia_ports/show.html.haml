@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Device:
+  = @statusnokia_port.device
+%p
+  %b Port:
+  = @statusnokia_port.port
+%p
+  %b Type device:
+  = @statusnokia_port.type_device
+%p
+  %b Configurespeed:
+  = @statusnokia_port.configurespeed
+%p
+  %b Speed:
+  = @statusnokia_port.speed
+%p
+  %b Description:
+  = @statusnokia_port.description
+%p
+  %b Status:
+  = @statusnokia_port.status
+%p
+  %b Service_all:
+  = @statusnokia_port.service_all
+
+= link_to 'Edit', edit_statusnokia_port_path(@statusnokia_port)
+\|
+= link_to 'Back', statusnokia_ports_path

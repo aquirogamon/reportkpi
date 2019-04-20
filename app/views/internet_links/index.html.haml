@@ -1,0 +1,81 @@
+.row.margin-top-30
+  .col-md-1
+  .col-md-10
+    %h3
+      Enlaces de Internet
+      = link_to 'PDF', internet_links_path(format: "pdf"), class: 'btn btn-sm btn-warning float-right'
+      = link_to 'Excel', internet_links_path(format: "xls"), class: 'btn btn-sm btn-warning float-right'
+
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    .float-left 
+      = link_to 'Volver', ppmreports_path, class: 'btn btn-sm btn-success'
+  .col-md-2
+
+
+.row.margin-top-00
+  .col-md-12
+    %table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10#myTable
+      %thead
+        %tr
+          %th IRU
+          %th Tier One
+          %th Ubicación Usa
+          %th Ubicación Perú
+          %th Equipo
+          %th Puerto
+          %th LACP
+          %th ID IRU
+          %th ID Tier One
+          %th Capacidad
+          %th Fecha Aceptación
+          %th Cantidad de meses (IRU)
+          %th Fecha de Caducidad
+          %th Status
+          %th Observaciones
+          - if user_signed_in? && current_user.is_editor_user?
+            %th
+          - if user_signed_in? && current_user.is_admin_user?
+            %th
+
+      %tbody
+        - @internet_links.each do |internet_link|
+          %tr
+            %td= internet_link.iru
+            %td= internet_link.tierone
+            %td= internet_link.location_usa
+            %td= internet_link.location_peru
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, internet_link, :device, as: :input, inner_class: "form-control"
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, internet_link, :port, as: :input, inner_class: "form-control"
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, internet_link, :lacp, as: :input, inner_class: "form-control"
+            %td= internet_link.id_iru
+            %td= internet_link.id_tierone
+            %td= internet_link.capacity
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, internet_link, :time_activation, as: :date, inner_class: "form-control"
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, internet_link, :time_iru, as: :input, inner_class: "form-control"
+            %td= internet_link.time_rest
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, internet_link, :status, as: :select, :collection => {"Activo" => "Activo", "EnProceso" => "EnProceso", "EnSolicitud" => "EnSolicitud"}, inner_class: "form-control"
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, internet_link, :observation, as: :textarea, inner_class: "form-control"
+            - if user_signed_in? && current_user.is_editor_user?
+              %td= link_to 'Editar', edit_internet_link_path(internet_link), remote: true, target: :_blank
+            - if user_signed_in? && current_user.is_admin_user?
+              %td= link_to 'Borrar', internet_link, method: :delete, data: { confirm: 'Estás seguro?' }
+
+%br
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    .float-left 
+    - if user_signed_in? && current_user.is_admin_user?
+      = link_to 'Nuevo enlace', new_internet_link_path, remote: true, class: 'btn btn-sm btn-success'
+
+
+
+.margin-top-30
+%div.margin-left-50
+  = column_chart [{name: "Total de Enlaces", data: @chart_all_tierone}, {name: "Telxius", data: @chart_telxius}, {name: "Centurylink", data: @chart_centurylink}, {name: "Tisparkle", data: @chart_tisparkle}, library: { title: { text: "Enlaces Activados" }, series: [{ 1 => { type: "line" } }] }]
+
+
+.margin-top-30
+#chart_div{:style => "width: 1300px; height: 500px;"}

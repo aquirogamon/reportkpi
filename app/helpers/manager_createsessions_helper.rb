@@ -1,0 +1,2 @@
+module ManagerCreatesessionsHelper
+end

@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <div class="logotitle margin-top-20"></div>
+    <h2 class="page_title margin-top-15">
+      Sistema de Reportes: <small>Gerencia de Planificación de Red de Datos</small>
+    </h2>
+    <h4 class="page_subtitle margin-top-10">
+      Reportes de KPI de Core, Agregación, Acceso y Servicios
+    </h4>
+  </div>
+</div>
+<hr />
+
+<div class="row login">
+
+  <div class="col-md-6 logo">
+    Sistema Ágil de Reportes de KPI
+  </div>
+  <div class="col-md-6">
+    <h3>Ingresar</h3>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
+    <div class="form-group">
+      <%= f.label 'Usuario' %>
+      <%= f.text_field :username, autofocus: true, class: 'form-control', placeholder: "Ingresar Usuario" %>
+    </div>
+    <div class="form-group">
+      <%= f.label 'Contraseña' %>
+      <%= f.password_field :password, class: 'form-control', placeholder: "Ingresar contraseña" %>
+    </div>
+    <div class="form-group">
+      <% if devise_mapping.rememberable? %>
+      <%= f.label 'Recordarme', class: 'checkbox margin-left-13' do %>
+        <%= f.check_box :remember_me %> Recordarme
+        <% end %>
+      <% end %>
+      <%= f.submit "Ingresar", class: 'btn btn-success' %>
+    </div>
+    <% end %>
+  </div>
+
+</div>

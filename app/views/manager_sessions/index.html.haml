@@ -1,0 +1,105 @@
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    %h3.margin-top-10
+      Sesiones de TWAMP creadas en Accedian
+      = link_to 'Excel', manager_sessions_path(format: "xls"), class: 'btn btn-sm btn-warning float-right'
+      - if user_signed_in? && current_user.is_admin_user?
+        = link_to 'CSV', manager_sessions_path(format: "csv"), class: 'btn btn-sm btn-warning float-right'
+      .updated
+        Actualizado:
+        - unless ManagerSession.last == nil
+          = ManagerSession.last.created_at.strftime("%d/%m/%Y %H:%M:%S")
+        - else
+          '-'
+  .col-md-2
+
+.row.margin-top-02
+  .col-md-1
+  .col-md-10
+    .float-left 
+      = link_to 'Volver', ppmreports_path, class: 'btn btn-sm btn-volver'
+
+.row.margin-top-10.search-form-container
+  .col-md-1
+  .col-md-10
+    = search_form_for @search, url: search_manager_sessions_path, method: :post, :html => {:class => "form-horizontal form-row"} do |f|
+      = f.condition_fields do |c|
+        = render 'condition_fields', f: c
+      %p= link_to_add_fields "Agregar", f, :condition
+      .form-row.row_spacer.no-margin
+        Ordenar:
+      .form-inline.field
+        .form-row
+          = f.sort_fields do |s|
+            = s.sort_select({}, :class => 'form-control')
+      .form-row
+        .actions
+          = f.submit "Buscar", class: 'btn btn-sm btn-success row_spacer'
+          = f.submit "Clear", :name => nil, :id => :q_reset, class: 'btn btn-sm btn-info row_spacer'
+
+.row.margin-top-00
+  .col-md-12
+    = will_paginate @session_accedians, renderer: BootstrapPagination::Rails
+    %table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10
+      %thead
+        %tr
+          %th Tipo de Sesión
+          %th Tipo de Equipo
+          %th Nombre de la Sesión
+          %th STATUS Sesión
+          %th Actuador
+          %th Reflector
+          %th IP Reflector
+          %th Tipo de Reflector
+          %th STATUS Reflector
+          %th SLA
+          %th Delay Promedio (ms) (Último Día):
+          %th Delay Máximo (ms) (Último Día):
+          %th Paquetes Perdidos P2R P95 (%):
+          %th Paquetes Perdidos R2P P95 (%):
+          %th Eventos de Perdidas P2R P95:
+          %th Eventos de Perdidas R2P P95:
+          %th TX Provider
+          %th STATUS Equipo
+          %th
+          - if user_signed_in? && current_user.is_editor_user?
+            %th
+          - if user_signed_in? && current_user.is_admin_user?
+            %th
+      %tbody
+        - @manager_sessions.each do |manager_session|
+          %tr
+            %td= manager_session.sessionType
+            %td= manager_session.product_endpoint
+            %td= manager_session.name_session
+            %td= manager_session.state_session
+            %td= manager_session.accediandevice.name_device
+            %td= manager_session.dstEndpoint
+            %td= manager_session.ip_endpoint
+            %td= manager_session.type_endpoint
+            %td= manager_session.state_endpoint
+            %td= manager_session.sla
+            %td= manager_session.delay_50_p95
+            %td= manager_session.delay_max_p95
+            %td= manager_session.lossPercent_p2r_p95
+            %td= manager_session.lossPercent_r2p_p95
+            %td= manager_session.events_lossp2r
+            %td= manager_session.events_lossr2p
+            %td= manager_session.tx_provider.name
+            %td= manager_session.status_device
+            %td= link_to 'Historial', manager_session, target: :_blank
+            - if user_signed_in? && current_user.is_admin_user?
+              %td= link_to 'Editar', edit_manager_session_path(manager_session)
+
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    .float-left 
+    - if user_signed_in? && current_user.is_admin_user?
+      = link_to 'Crear nuevar Sesión - Manager', manager_createsessions_show_path, target: :_blank, class: 'btn btn-sm btn-success'
+
+
+.margin-top-30
+%div.container
+= column_chart [{name: "Cantidad de Sessions", data: @chart_sla_session}], legend: true, xtitle: "Nombre de SLA", ytitle: "# de Sesiones", adapter: "google", max: 1500, discrete: true, library: { hAxis: { direction: -1, slantedText: true, slantedTextAngle: 80 }}

@@ -1,0 +1,14 @@
+es:
+  activerecord:
+    attributes:
+      iprannet_qosegressinterface:
+        device: "Nombre de Equipo"
+        port: "Puerto"
+        queueId: "Cola de Servicio"
+        bps_max: "Tráfico Mbps"
+        discard: "Paquetes Descartados OUT"
+        discard_avg: "AVG Paquetes Descartados OUT"
+        time: "Fecha de Solución"
+        comment: "Comentario"
+        weeks: "Semanas"
+        tx_provider_id: "Medio de TX"

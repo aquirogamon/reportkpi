@@ -1,0 +1,25 @@
+var ranges = {
+           'Hoy': [moment(), moment()],
+           'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Últimos 7 Días': [moment().subtract(6, 'days'), moment()],
+           'Últimos 30 Día': [moment().subtract(29, 'days'), moment()],
+           'Este mes': [moment().startOf('month'), moment().endOf('month')],
+           'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+};
+
+$("#reportrange").daterangepicker({
+    timePicker: true,
+    startDate: moment("<%= l @start_date, format: '%Y %m %d' %>"),
+    endDate: moment("<%= l @end_date, format: '%Y %m %d' %>"),
+    ranges: ranges,
+    alwaysShowCalendars: true,
+    timePicker24Hour: true,
+    locale: {
+      format: 'DD/M hh:mm A'
+    }
+  }, function(start, end, label) {
+  $("#start").val(start.format('YYYY-MM-DD'));
+  $("#end").val(end.format('YYYY-MM-DD'));
+
+  $("form").submit();
+});

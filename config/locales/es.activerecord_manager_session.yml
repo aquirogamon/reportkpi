@@ -1,0 +1,23 @@
+es:
+  activerecord:
+    attributes:
+      manager_session:
+        product_endpoint: "Tipo de Equipo"
+        state_endpoint: "Status de Reflector"
+        type_endpoint: "Tipo de Reflector"
+        port_endpoint: "Puerto de Reflector"
+        tos_endpoint: "DSCP de Reflector"
+        sessionType: "Tipo de Sessión"
+        dstEndpoint: "Reflector"
+        dstPort: "Puerto Destino de la Sessión"
+        srcEndpoint: "Actuador"
+        sla: "SLA"
+        status_device: "Status de Equipo"
+        state_session: "Status de Sessión"
+        name_session: "Nombre de Sessión"
+        dp50_p2r: "Delay Promedio P2R"
+        dpmax_p2r: "Delay Máximo P2R"
+        lossPercent_p2r: "Paquetes Perdidos P2R"
+        dp50_r2p: "Delay Promedio R2P"
+        dpmax_r2p: "Delay Máximo R2P"
+        lossPercent_r2p: "Paquetes Perdidos R2P"

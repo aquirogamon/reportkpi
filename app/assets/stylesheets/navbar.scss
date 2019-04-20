@@ -1,0 +1,97 @@
+.rojo_principal {
+  background-color: #D95242 !important;
+}
+
+$bgDefault   : #e74c3c;
+$bgHighlight : #c0392b;
+$colDefault  : #ecf0f1;
+$colHighlight: #ffbbbc;
+.navbar-default {
+  background-color: $bgDefault;
+  border-color: $bgHighlight;
+  .navbar-brand {
+    color: $colDefault;
+    &:hover, &:focus {
+      color: $colHighlight; }}
+  .navbar-text {
+    color: $colDefault; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: $colDefault;
+        &:hover,  &:focus {
+          color: $colHighlight; }}}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}}
+  .navbar-toggle {
+    border-color: $bgHighlight;
+    &:hover, &:focus {
+      background-color: $bgHighlight; }
+    .icon-bar {
+      background-color: $colDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $colDefault; }
+  .navbar-link {
+    color: $colDefault;
+    &:hover {
+      color: $colHighlight; }}}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    > .active {
+      > a, > a:hover, > a:focus, {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}}
+}
+
+.collapse.in {
+  display: block;
+}
+
+.navbar-brand{
+  color: white !important;
+  background-color: #D95242!important;
+}
+
+.navbar {
+  border: none;
+  position: relative;
+}
+
+.navbar-default {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  margin-bottom: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}
+
+.navbar-header > a > img {
+  width: 83px !important;
+  height: 30px !important;
+  margin-top: 5px !important;
+}
+
+.boton-usuario {
+  color: white !important;
+  background-color: #B7222F!important;
+}
+
+.boton-reporte {
+  color: white !important;
+  background-color: #D95242 !important;
+}
+
+.dropdown-menu {
+  font-size: 13px;
+}

@@ -1,0 +1,66 @@
+#product-modal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"}
+        %h4.modal-title= title
+
+      = form_for @internet_link, remote: true do |f|
+        - if @internet_link.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@internet_link.errors.count, "error")} prohibited this internet_link from being saved:"
+            %ul
+              - @internet_link.errors.full_messages.each do |message|
+                %li= message
+        .modal-body
+          .field
+            = f.label :"Proveedor IRU", class: 'margin-top-10'
+            = f.select :name_iru, [['Telxius', 'Telxius'], ['Tisparkle', 'Tisparkle'], ['Centurylink', 'Centurylink'], ['Local', 'Local']], {:include_blank => true }, :class=>'form-control m-b'
+          .field
+            = f.label :"Proveedor TierOne", class: 'margin-top-10'
+            = f.select :name_tierone, [['Tinet', 'Tinet'], ['Bbip', 'Bbip'], ['Ntt', 'Ntt'], ['Gtt', 'Gtt'], ['Teliasonera', 'Teliasonera'], ['Tata', 'Tata'], ['Facebook', 'Facebook'], ['Google', 'Google'], ['RiotGame', 'RiotGame'], ['Verizon', 'Verizon'], ['Valve', 'Valve'], ['Internexa', 'Internexa'], ['Centurylink', 'Centurylink']], {:include_blank => true }, :class=>'form-control m-b'
+          .field
+            = f.label :IRU, class: 'margin-top-10'
+            = f.text_field :iru, class: 'form-control'
+          .field
+            = f.label :TierOne, class: 'margin-top-10'
+            = f.text_field :tierone, class: 'form-control'
+          .field
+            = f.label :"Locación USA", class: 'margin-top-10'
+            = f.select :location_usa, [['Miami', 'Miami'], ['New York', 'New York'], ['Los Angeles', 'Los Angeles'], ['NAP', 'NAP'], ['Lurin (Telxius)', 'Lurin (Telxius)'], ['Olguin (Centurylink)', 'Olguin (Centurylink)']], {:include_blank => true }, :class=>'form-control m-b'
+          .field
+            = f.label :"Locación Perú", class: 'margin-top-10'
+            = f.select :location_peru, [['Polo1', 'Polo1'], ['Villa Salvador', 'Villa Salvador']], {:include_blank => true }, :class=>'form-control m-b'
+          .field
+            = f.label :Equipo, class: 'margin-top-10'
+            = f.text_field :device, class: 'form-control'
+          .field
+            = f.label :Puerto, class: 'margin-top-10'
+            = f.text_field :port, class: 'form-control'
+          .field
+            = f.label :LACP, class: 'margin-top-10'
+            = f.text_field :lacp, class: 'form-control'
+          .field
+            = f.label :"ID Iru", class: 'margin-top-10'
+            = f.text_field :id_iru, class: 'form-control'
+          .field
+            = f.label :"ID Tierone", class: 'margin-top-10'
+            = f.text_field :id_tierone, class: 'form-control'
+          .field
+            = f.label :Capacidad, class: 'margin-top-10'
+            = f.text_field :capacity, class: 'form-control'
+          .field
+            = f.label :"Fechas de Activación", class: 'margin-top-10'
+            = f.date_field :time_activation, class: 'form-control'
+          .field
+            = f.label :"Cantidad de meses (IRU)", class: 'margin-top-10'
+            = f.number_field :time_iru, class: 'form-control'
+          .field
+            = f.label :Status, class: 'margin-top-10'
+            = f.select :status, [['Activo', 'Activo'], ['EnProceso', 'EnProceso'], ['EnSolicitud', 'EnSolicitud']], {:include_blank => true }, :class=>'form-control m-b'
+          .field
+            = f.label :Observaciones, class: 'margin-top-10'
+            = f.text_area :observation, class: 'form-control'
+        .modal-footer
+          = f.submit 'Guardar', class: "btn btn-sm btn-warning btn-block margin-top-05"

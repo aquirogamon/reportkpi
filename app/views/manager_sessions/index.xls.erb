@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sesiones">
+    <Table>
+      <Row ss:Height="20">
+        <Cell><Data ss:Type="String">Nombre de Sesion</Data></Cell>
+        <Cell><Data ss:Type="String">Status de Sesion</Data></Cell>
+        <Cell><Data ss:Type="String">Actuador</Data></Cell>
+        <Cell><Data ss:Type="String">Delay Promedio (Ultima Medición)</Data></Cell>
+        <Cell><Data ss:Type="String">Delay Máximo (Ultima Medición)</Data></Cell>
+        <Cell><Data ss:Type="String">Delay Promedio (Percentile_95 de 1 día)</Data></Cell>
+        <Cell><Data ss:Type="String">Delay Máximo (Percentile_95 de 1 día)</Data></Cell>
+      </Row>
+    <% @manager_sessions_all_xls.each do |manager_session| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= manager_session.name_session %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= manager_session.state_session %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= manager_session.accediandevice.name_device %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= manager_session.delay_50 %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= manager_session.delay_max %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= manager_session.delay_50_p95 %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= manager_session.delay_max_p95 %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

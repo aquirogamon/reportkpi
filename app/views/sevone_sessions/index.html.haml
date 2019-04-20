@@ -1,0 +1,33 @@
+%h1 Listing sevone_sessions
+
+%table
+  %thead
+    %tr
+      %th Session name
+      %th Session
+      %th Object name
+      %th Object
+      %th Device name
+      %th Device
+      %th Device elemets
+      %th
+      %th
+      %th
+
+  %tbody
+    - @sevone_sessions.each do |sevone_session|
+      %tr
+        %td= sevone_session.session_name
+        %td= sevone_session.session_id
+        %td= sevone_session.object_name
+        %td= sevone_session.object_id
+        %td= sevone_session.device_name
+        %td= sevone_session.device_id
+        %td= sevone_session.device_elemets
+        %td= link_to 'Show', sevone_session
+        %td= link_to 'Edit', edit_sevone_session_path(sevone_session)
+        %td= link_to 'Destroy', sevone_session, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Sevone session', new_sevone_session_path

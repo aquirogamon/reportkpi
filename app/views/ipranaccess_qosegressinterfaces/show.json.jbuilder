@@ -1,0 +1,1 @@
+json.partial! "ipranaccess_qosegressinterfaces/ipranaccess_qosegressinterface", ipranaccess_qosegressinterface: @ipranaccess_qosegressinterface

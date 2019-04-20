@@ -1,0 +1,136 @@
+.margin-top-20
+%div.container
+  #HistorialCore
+
+.margin-top-20
+%div.container
+  #UtilizationCore
+
+.margin-top-20
+%div.container
+  .row.col-md-4
+    %p
+      - if @core_interface.weeks > 3
+        %b.text-danger #{@core_interface.weeks}
+      - else
+        %b #{@core_interface.weeks}
+      %b Semanas con alta ocupación
+
+%div.container
+  .row.col-md-2
+    %p
+      %b ID:
+    %p
+      %b NodoIndex:
+    %p
+      %b Nodo:
+    %p
+      %b Servicio:
+    %p
+      %b Puerto:
+    %p
+      %b Capacidad Gbps:
+    %p
+      %b RX Gbps:
+    %p
+      %b TX Gbps:
+    %p
+      %b % Utilización:
+    %p
+      %b % Crecimiento:
+    %p
+      %b Localidad:
+    %p
+      %b Comentario:
+    %p
+      %b Fecha de Solución:
+  .row.col-md-10
+    %p
+      = @core_interface.id
+    %p
+      = @core_interface.deviceindex
+    %p
+      = @core_interface.device
+    %p
+      = @core_interface.router
+    %p
+      = @core_interface.port
+    %p
+      = @core_interface.egressRate
+    %p
+      = @core_interface.gbpsrx
+    %p
+      = @core_interface.gbpstx
+    %p
+      = @core_interface.status
+    %p
+      = @core_interface.crecimiento
+    %p
+      = @core_interface.location
+    %p
+      = @core_interface.comment
+    %p
+      = @core_interface.time
+
+%div.container
+  .margin-top-20
+  = link_to 'Editar', edit_core_interface_path(@core_interface), class: 'btn btn-sm btn-success'
+  = link_to 'Volver', core_interfaces_path, class: 'btn btn-sm btn-success'
+  .margin-top-20
+
+:javascript
+  google.charts.load('current', {packages: ['corechart', 'bar', 'line']});
+
+  google.charts.setOnLoadCallback(UtilizationCore_Chart);
+  function UtilizationCore_Chart() {
+    var UtilizationCore_data = JSON.parse('#{(CoreInterface.where(deviceindex: @core_interface.deviceindex).order("created_at ASC").pluck(:created_at, :status).map { |e| [ e[0].strftime("%U-%Y"), e[1] ] }).to_json.html_safe}');
+    UtilizationCore_data = [['Fecha/Semana', 'Utilización']].concat(UtilizationCore_data);
+    UtilizationCore_data = google.visualization.arrayToDataTable(UtilizationCore_data);
+    var options = {
+      'height':300,
+      hAxis: {
+        title: 'Fecha/Semana',
+        textStyle: {fontSize: 12, color: 'black' },
+        titleTextStyle: {fontSize: 12, color: 'black' }
+      },
+      vAxis: {
+        title: '%',
+        textStyle: {fontSize: 12, color: 'black' },
+        titleTextStyle: {fontSize: 12, color: 'black' },
+        minValue: 0
+      },
+      colors: ['#99b2e5'],
+      legend: { position: 'top' }
+    };
+
+    var UtilizationCoreChart = new google.visualization.ColumnChart(document.getElementById('UtilizationCore'));
+    UtilizationCoreChart.draw(UtilizationCore_data, options);
+  }
+
+  google.charts.setOnLoadCallback(HistorialCore);
+  function HistorialCore() {
+    var HistorialCore = JSON.parse('#{(CoreInterface.where(deviceindex: @core_interface.deviceindex).order("created_at ASC").pluck(:created_at, :bps_max).map { |e| [ e[0].strftime("%U-%Y"), e[1] ] }).to_json.html_safe}');
+    HistorialCore = [['Fecha/Semana', 'Tráfico Gbps']].concat(HistorialCore);
+    HistorialCore = google.visualization.arrayToDataTable(HistorialCore);
+    var options = {
+      height: 300,
+      hAxis: {
+        title: 'Fecha/Semana',
+        textStyle: {fontSize: 12, color: 'black' },
+        titleTextStyle: {fontSize: 12, color: 'black' }
+      },
+      vAxis: {
+        title: 'Gbps',
+        textStyle: {fontSize: 12, color: 'black' },
+        titleTextStyle: {fontSize: 12, color: 'black' },
+        minValue: 0
+      },
+      colors: ['#99b2e5'],
+      curveType: 'function',
+      legend: { position: 'top' },
+      pointsVisible: 'true'
+    };
+
+    var HistorialCoreChart = new google.visualization.LineChart(document.getElementById('HistorialCore'));
+    HistorialCoreChart.draw(HistorialCore, options);
+  }

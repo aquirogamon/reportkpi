@@ -1,0 +1,304 @@
+.row.margin-top-30
+  .col-md-1
+  .col-md-10
+    %h3
+      Reportes de Interfaces de Core MPLS
+      = link_to 'PDF', core_interfaces_path(format: "pdf"), class: 'btn btn-sm btn-warning float-right'
+      = link_to 'Excel', core_interfaces_path(format: "xls"), class: 'btn btn-sm btn-warning float-right'
+      .updated
+        Actualizado:
+        - unless CoreInterface.last == nil
+          = CoreInterface.maximum(:created_at).strftime("Semana %U-%Y")
+        - else
+          '-'
+  .col-md-1
+
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    .float-left 
+      = link_to 'Volver', ppmreports_path, class: 'btn btn-sm btn-success'
+  .col-md-2
+
+.row.margin-top-00
+  .col-md-1
+  .col-md-10
+    %input#myNodo{:onkeyup => "myNodo()", :placeholder => "Buscar Nodo ...", :title => "Equipo de Internet", :type => "text"}
+    %input#myServicio{:onkeyup => "myServicio()", :placeholder => "Buscar Tipo de Equipo ...", :title => "Tipo de Equipo", :type => "text"}
+    %input#myLocation{:onkeyup => "myLocation()", :placeholder => "Buscar Locación ...", :title => "Locación", :type => "text"}
+
+= form_tag destroy_multiple_core_interfaces_path, method: :delete do
+  .row.margin-top-00
+    .col-md-12
+      %table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10#myTable
+        %thead
+          %tr
+            %th.text-center.cursor{:onclick => "sortTableName(0)"}
+              Equipo
+            %th.text-center
+              Puerto
+            %th.text-center.cursor{:onclick => "sortTableName(2)"}
+              Servicio
+            %th.text-center.cursor{:onclick => "sortTableName(3)"}
+              Localidad
+            %th.text-center.cursor{:onclick => "sortTableNumeric(4)"}
+              Capacidad
+            %th.text-center.success
+              Max_Gbps (Anterior)
+            %th.text-center.cursor.success{:onclick => "sortTableNumeric(6)"}
+              \% (Anterior)
+            %th.text-center.info
+              Max_Gbps
+              %br
+              = CoreInterface.last.created_at.strftime("Sem_%U")
+            %th.text-center.cursor.info{:onclick => "sortTableNumeric(8)"}
+              \%
+              %br
+              = CoreInterface.last.created_at.strftime("Sem_%U")
+            %th.text-center
+              Crecimiento
+            %th.text-center
+              Comentario
+            %th.text-center
+              Área Responsable
+            %th.text-center
+              Fecha de Solución
+            %th
+            %th
+            - if user_signed_in? && current_user.is_admin_user?
+              %th
+
+        %tbody
+          - unless CoreInterface.last == nil
+            - @core_interfaces.each do |core_interface|
+              %tr
+                %td= core_interface.device
+                %td= core_interface.port
+                %td= core_interface.router
+                %td= core_interface.location
+                %td= core_interface.egressRate
+                %td= core_interface.last_bps_max
+                
+                - if core_interface.last_status > 85.00
+                  %td.danger= core_interface.last_status
+                - elsif core_interface.last_status > 75.00 and core_interface.last_status < 84.999
+                  %td.warning= core_interface.last_status
+                - else
+                  %td= core_interface.last_status
+
+                %td= core_interface.bps_max
+
+                - if core_interface.status > 85.00
+                  %td.danger= core_interface.status
+                -elsif core_interface.status > 75.00 and core_interface.status < 84.999
+                  %td.warning= core_interface.status
+                - else
+                  %td= core_interface.status
+
+                - if core_interface.crecimiento > 15.00
+                  %td.danger= core_interface.crecimiento
+                -elsif core_interface.crecimiento < -15.00
+                  %td.danger= core_interface.crecimiento
+                - else
+                  %td= core_interface.crecimiento
+
+                %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, core_interface, :comment, as: :textarea, inner_class: "form-control"
+                %td= core_interface.provider.name
+                %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, core_interface, :time, as: :date, inner_class: "form-control"
+                %td= link_to 'Historial', core_interface, target: :_blank
+                %td= link_to 'Editar', edit_core_interface_path(core_interface), target: :_blank
+                - if user_signed_in? && current_user.is_admin_user?
+                  %td= link_to 'Borrar', core_interface, method: :delete, data: { confirm: 'Estás seguro?' }
+                  %td= check_box_tag "core_interface_ids[]", core_interface.id
+      - if user_signed_in? && current_user.is_admin_user?
+        .row.margin-top-10
+          .col-md-1
+          .col-md-10
+            .float-left 
+              = submit_tag "Borrar Seleccionados", class: 'btn btn-sm btn-success'
+
+.margin-top-20
+
+%br
+
+:javascript
+  function myNodo() {
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("myNodo");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  function myServicio() {
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("myServicio");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[2];
+      if (td) {
+        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  function myLocation() {
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("myLocation");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[3];
+      if (td) {
+        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  function sortTableName(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("myTable");
+    switching = true;
+    //Set the sorting direction to ascending:
+    dir = "asc"; 
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+      //start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /*Loop through all table rows (except the
+      first, which contains table headers):*/
+      for (i = 1; i < (rows.length - 1); i++) {
+        //start by saying there should be no switching:
+        shouldSwitch = false;
+        /*Get the two elements you want to compare,
+        one from current row and one from the next:*/
+        x = rows[i].getElementsByTagName("td")[n];
+        y = rows[i + 1].getElementsByTagName("td")[n];
+        /*check if the two rows should switch place,
+        based on the direction, asc or desc:*/
+        if (dir == "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch= true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /*If a switch has been marked, make the switch
+        and mark that a switch has been done:*/
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        //Each time a switch is done, increase this count by 1:
+        switchcount ++;      
+      } else {
+        /*If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again.*/
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  }
+  function sortTableNumeric(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("myTable");
+    switching = true;
+    //Set the sorting direction to ascending:
+    dir = "asc"; 
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+      //start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /*Loop through all table rows (except the
+      first, which contains table headers):*/
+      for (i = 1; i < (rows.length - 1); i++) {
+        //start by saying there should be no switching:
+        shouldSwitch = false;
+        /*Get the two elements you want to compare,
+        one from current row and one from the next:*/
+        x = rows[i].getElementsByTagName("td")[n];
+        y = rows[i + 1].getElementsByTagName("td")[n];
+        /*check if the two rows should switch place,
+        based on the direction, asc or desc:*/
+        if (dir == "asc") {
+          if (Number(x.innerHTML) > Number(y.innerHTML)) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch= true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (Number(x.innerHTML) < Number(y.innerHTML)) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /*If a switch has been marked, make the switch
+        and mark that a switch has been done:*/
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        //Each time a switch is done, increase this count by 1:
+        switchcount ++;      
+      } else {
+        /*If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again.*/
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  }
+  $.datepicker.regional['es'] = {
+   closeText: 'Cerrar',
+   prevText: '< Ant',
+   nextText: 'Sig >',
+   currentText: 'Hoy',
+   monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+   monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+   dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+   dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+   dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+   weekHeader: 'Sm',
+   dateFormat: 'yy-mm-dd',
+   firstDay: 1,
+   isRTL: false,
+   showMonthAfterYear: false,
+   yearSuffix: ''
+   };
+  $.datepicker.setDefaults($.datepicker.regional['es']);
+  $(function () {
+    $("#time").datepicker();
+  });

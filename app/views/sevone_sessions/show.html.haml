@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Session name:
+  = @sevone_session.session_name
+%p
+  %b Session:
+  = @sevone_session.session_id
+%p
+  %b Object name:
+  = @sevone_session.object_name
+%p
+  %b Object:
+  = @sevone_session.object_id
+%p
+  %b Device name:
+  = @sevone_session.device_name
+%p
+  %b Device:
+  = @sevone_session.device_id
+%p
+  %b Device elemets:
+  = @sevone_session.device_elemets
+
+= link_to 'Edit', edit_sevone_session_path(@sevone_session)
+\|
+= link_to 'Back', sevone_sessions_path

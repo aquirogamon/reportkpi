@@ -1,0 +1,42 @@
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP:Header>
+      <header xmlns="xmlapi_1.0">
+         <security>
+            <user>C12285</user>
+            <password hashed="false">Peru2018#</password>
+         </security>
+         <requestID>aquiroga:0001</requestID>
+      </header>
+   </SOAP:Header>
+   <SOAP:Body>
+      <find xmlns="xmlapi_1.0">
+         <fullClassName>equipment.PortNetEgressStatsLogRecord</fullClassName>
+         <filter>
+           <and>
+            <or>
+             <between name="timeCaptured" first="1552353028000" second="1552356628000"></between>
+            </or>
+            <not>
+             <or>
+              <wildcard name="displayedName" value="Channel%"></wildcard>
+              <wildcard name="displayedName" value="system%"></wildcard>
+              <wildcard name="displayedName" value="loopback%"></wildcard>
+             </or>
+            </not>
+          </and>
+         </filter>
+         <resultFilter>
+            <attribute>monitoredObjectSiteName</attribute>
+            <attribute>displayedName</attribute>
+            <attribute>queueId</attribute>
+            <attribute>inProfileOctetsDropped</attribute>
+            <attribute>outOfProfileOctetsDropped</attribute>
+            <attribute>inProfileOctetsForwarded</attribute>
+            <attribute>outOfProfileOctetsForwarded</attribute>
+            <attribute>monitoredObjectPointer</attribute>
+            <attribute>timeCaptured</attribute>
+            <children/>
+         </resultFilter>
+      </find>
+   </SOAP:Body>
+</SOAP:Envelope>

@@ -1,0 +1,34 @@
+= form_for @core_interface do |f|
+  - if @core_interface.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@core_interface.errors.count, "error")} prohibited this core_interface from being saved:"
+      %ul
+        - @core_interface.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :"Pico de Tráfico", class: 'margin-top-10'
+    = f.text_field :bps_max, class: 'form-control'
+  .field
+    = f.label :"% Utilización", class: 'margin-top-10'
+    = f.text_field :status, class: 'form-control'
+  .field
+    = f.label :"Capacidad", class: 'margin-top-10'
+    = f.text_field :egressRate, class: 'form-control'
+  .field
+    = f.label :"% Crecimiento", class: 'margin-top-10'
+    = f.text_field :crecimiento, class: 'form-control'
+  .field
+    = f.label :"Localidad", class: 'margin-top-10'
+    = f.text_field :location, class: 'form-control'
+  .field
+    = f.label :"Fecha de Solución", class: 'margin-top-10'
+    = f.date_field :time, class: 'form-control'
+  .field
+    = f.label :Comentario, class: 'margin-top-10'
+    = f.text_area :comment, class: 'form-control'
+  .field
+    = f.label :Área, class: 'margin-top-10'
+    = f.collection_select :provider_id, Provider.order(:name), :id, :name, {:include_blank => true }, :class=>'form-control m-b'
+  .actions
+    = f.submit 'Guardar', class: 'btn btn-sm btn-warning margin-top-05'

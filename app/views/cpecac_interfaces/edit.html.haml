@@ -1,0 +1,67 @@
+.row.margin-top-20
+	.col-md-1
+	.col-md-10
+		%h3
+			Editar los comentarios y fechas de:
+			%small
+				= @cpecac_interface.deviceindex
+				= " - "
+				= @cpecac_interface.index_opm
+
+.row.margin-top-20
+	.col-md-12.table-responsive
+		%table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10
+			%thead
+				%tr
+					%th.text-center
+						Equipo
+					%th.text-center
+						Puerto
+					%th.text-center
+						Servicio
+					%th.text-center
+						Capacidad
+					%th.text-center.info
+						RX Gbps
+						%br
+						= @cpecac_interface.created_at.strftime("Sem_%U")
+					%th.text-center.info
+						TX Gbps
+						%br
+						= @cpecac_interface.created_at.strftime("Sem_%U")
+					%th.text-center.info
+						\%
+						%br
+						= @cpecac_interface.created_at.strftime("Sem_%U")
+					%th.text-center
+						Crecimiento
+
+			%tbody
+				%tr
+					%td= @cpecac_interface.device
+					%td= @cpecac_interface.port
+					%td= @cpecac_interface.servicio
+					%td= @cpecac_interface.egressRate
+
+					%td= @cpecac_interface.gbpsrx
+					%td= @cpecac_interface.gbpstx
+
+					- if @cpecac_interface.status > 85.00
+						%td.danger= @cpecac_interface.status
+					-elsif @cpecac_interface.status > 75.00 and @cpecac_interface.status < 84.999
+						%td.warning= @cpecac_interface.status
+					- else
+						%td= @cpecac_interface.status
+
+					%td= @cpecac_interface.crecimiento
+
+%div.col-md-4
+	%p
+		%b Semanas con alta ocupación:
+		= @cpecac_interface.weeks
+	= render 'form'
+
+	.margin-top-20
+	= link_to 'Historial', @cpecac_interface, class: 'btn btn-sm btn-success'
+	= link_to 'Volver', cpecac_interfaces_path, class: 'btn btn-sm btn-success'
+	.margin-top-20

@@ -1,0 +1,82 @@
+%div.container
+  %h3.margin-top-10
+    Tráfico por Cola del equipo:
+    %b.text-danger #{@iprannet_qosegressinterface.device}
+    Port:
+    %b.text-danger #{@iprannet_qosegressinterface.port}
+
+
+.margin-top-20
+%div.container
+  .row.col-md-3
+    %i.fa.fa-calendar
+    %b Ingresar rango de busqueda
+    %input#reportrange{:style => "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%", :type => "text"}
+
+.margin-top-20
+%div.container
+  .row.col-md-4
+    %p
+      - if @iprannet_qosegressinterface.weeks > 3
+        %b.text-danger #{@iprannet_qosegressinterface.weeks}
+      - else
+        %b #{@iprannet_qosegressinterface.weeks}
+      %b Semanas con Drops
+
+
+.margin-top-30
+%div.margin-left-50
+  = line_chart [{name: "Cola 1", data: @chart_discard_1}, {name: "Cola 2", data: @chart_discard_2}, {name: "Cola 3", data: @chart_discard_3}, {name: "Cola 4", data: @chart_discard_4}, {name: "Cola 5", data: @chart_discard_5}, {name: "Cola 6", data: @chart_discard_6}, {name: "Cola 7", data: @chart_discard_7}], legend: true, xtitle: "Fecha - Hora", ytitle: "Descarte por Cola - Egress (Mbps)", download: {filename: "Drop por Cola de - #{@iprannet_qosegressinterface.device} - #{@iprannet_qosegressinterface.port}"}
+
+.margin-top-30
+%div.margin-left-50
+  = line_chart [{name: "Cola 1", data: @chart_bps_max_1}, {name: "Cola 2", data: @chart_bps_max_2}, {name: "Cola 3", data: @chart_bps_max_3}, {name: "Cola 4", data: @chart_bps_max_4}, {name: "Cola 5", data: @chart_bps_max_5}, {name: "Cola 6", data: @chart_bps_max_6}, {name: "Cola 7", data: @chart_bps_max_7}], legend: true, xtitle: "Fecha - Hora", ytitle: "Tráfico por Cola - Egress (Mbps)", download: {filename: "Tráfico por Cola de - #{@iprannet_qosegressinterface.device} - #{@iprannet_qosegressinterface.port}"}
+
+.margin-top-30
+%div.container
+  .row.col-md-3
+    %p
+      %b Nombre del Equipo:
+    %p
+      %b Puerto:
+    %p
+      %b Cola de Servicio:
+    %p
+      %b Tráfico Mbps:
+    %p
+      %b Paquetes Descartados OUT:
+    %p
+      %b AVG Paquetes Descartados OUT:
+    %p
+      %b Medio de Transmición:
+    %p
+      %b Fecha de Solución:
+    %p
+      %b Comentarios:
+  .row.col-md-9
+    %p
+      = @iprannet_qosegressinterface.device
+    %p
+      = @iprannet_qosegressinterface.port
+    %p
+      = @iprannet_qosegressinterface.queueId
+    %p
+      = @iprannet_qosegressinterface.bps_max
+    %p
+      = @iprannet_qosegressinterface.discard
+    %p
+      = @iprannet_qosegressinterface.discard_avg
+    %p
+      = @iprannet_qosegressinterface.tx_provider.name
+    %p
+      = @iprannet_qosegressinterface.time
+    %p
+      = @iprannet_qosegressinterface.comment
+
+%div.container
+  .margin-top-20
+  = link_to 'Volver', iprannet_qosegressinterfaces_path, class: 'btn btn-sm btn-success'
+
+= form_tag @iprannet_qosegressinterface, method: :get do
+  = hidden_field_tag :start
+  = hidden_field_tag :end

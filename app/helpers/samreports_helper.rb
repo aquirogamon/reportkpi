@@ -1,0 +1,2 @@
+module SamreportsHelper
+end

@@ -1,0 +1,72 @@
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    %h3.margin-top-10
+      Reporte de QoS SAP_Ingress en los Equipos Nokia
+      = link_to 'Excel', ipranaccess_qosingressinterfaces_path(format: "xls"), class: 'btn btn-sm btn-warning float-right'
+      - if user_signed_in? && current_user.is_admin_user?
+        = link_to 'CSV', ipranaccess_qosingressinterfaces_path(format: "csv"), class: 'btn btn-sm btn-warning float-right'
+      .updated
+        Actualizado:
+        - unless IpranaccessQosingressinterface.last == nil
+          = IpranaccessQosingressinterface.last.created_at.strftime("%d/%m/%Y %H:%M:%S")
+        - else
+          '-'
+  .col-md-2
+
+.row.margin-top-02
+  .col-md-1
+  .col-md-10
+    .float-left 
+      = link_to 'Volver', ppmreports_path, class: 'btn btn-sm btn-volver'
+
+.row.margin-top-10.search-form-container
+  .col-md-1
+  .col-md-10
+    = search_form_for @search, url: search_ipranaccess_qosingressinterfaces_path, method: :post, :html => {:class => "form-horizontal form-row"} do |f|
+      = f.condition_fields do |c|
+        = render 'condition_fields', f: c
+      %p= link_to_add_fields "Agregar", f, :condition
+      .form-row.row_spacer.no-margin
+        Ordenar:
+      .form-inline.field
+        .form-row
+          = f.sort_fields do |s|
+            = s.sort_select({}, :class => 'form-control')
+      .form-row
+        .actions
+          = f.submit "Buscar", class: 'btn btn-sm btn-success row_spacer'
+          = f.submit "Clear", :name => nil, :id => :q_reset, class: 'btn btn-sm btn-info row_spacer'
+
+.row.margin-top-00
+  .col-md-12
+    = will_paginate @ipranaccess_qosingressinterfaces, renderer: BootstrapPagination::Rails
+    %table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10
+      %thead
+        %tr
+          %th Nombre de Equipo
+          %th SAP (SubInterface)
+          %th Cola de Servicio
+          %th Tráfico Mbps
+          %th Paquetes Descartados IN
+          %th AVG Paquetes Descartados IN
+          %th Medio de Transmisión
+          %th Servicio
+          %th Fecha de Solución
+          %th Comentario
+          %th
+
+      %tbody
+        - @ipranaccess_qosingressinterfaces.each do |ipranaccess_qosingressinterface|
+          %tr
+            %td= ipranaccess_qosingressinterface.device
+            %td= ipranaccess_qosingressinterface.sap
+            %td= ipranaccess_qosingressinterface.queueId
+            %td= ipranaccess_qosingressinterface.bps_max
+            %td= ipranaccess_qosingressinterface.discard
+            %td= (((IpranaccessQosingressinterface.where(created_at: (IpranaccessQosingressinterface.maximum(:created_at) - 6.hours)..(IpranaccessQosingressinterface.maximum(:created_at))).where(device_sapqueue: ipranaccess_qosingressinterface.device_sapqueue).pluck(:discard)).inject{ |sum, el| sum + el }.to_f) / ((IpranaccessQosingressinterface.where(created_at: (IpranaccessQosingressinterface.maximum(:created_at) - 6.hours)..(IpranaccessQosingressinterface.maximum(:created_at))).where(device_sapqueue: ipranaccess_qosingressinterface.device_sapqueue).pluck(:discard))).size).round(2)
+            %td= ipranaccess_qosingressinterface.tx_provider.name
+            %td= ipranaccess_qosingressinterface.service
+            %td= ipranaccess_qosingressinterface.time
+            %td= ipranaccess_qosingressinterface.comment
+            %td= link_to 'Show', ipranaccess_qosingressinterface, target: :_blank

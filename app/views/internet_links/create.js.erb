@@ -1,0 +1,9 @@
+<% if @internet_link.errors.empty? %>
+  // add the row to the table, show alert and hide modal
+  $('table tbody').append(' <%= j render "row", Internet: @internet_link %>');
+  $('.alert-success').html("El producto ha sido creado con éxito").show();
+  $('#product-modal').modal('hide');
+<% else %>
+  // show first error
+  alert('<%= @internet_link.errors.full_messages[0] %>');
+<% end %>

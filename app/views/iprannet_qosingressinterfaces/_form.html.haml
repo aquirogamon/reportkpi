@@ -1,0 +1,49 @@
+= form_for @iprannet_qosingressinterface do |f|
+  - if @iprannet_qosingressinterface.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@iprannet_qosingressinterface.errors.count, "error")} prohibited this iprannet_qosingressinterface from being saved:"
+      %ul
+        - @iprannet_qosingressinterface.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :device
+    = f.text_field :device
+  .field
+    = f.label :port
+    = f.text_field :port
+  .field
+    = f.label :queueId
+    = f.number_field :queueId
+  .field
+    = f.label :bps_max
+    = f.text_field :bps_max
+  .field
+    = f.label :discard
+    = f.text_field :discard
+  .field
+    = f.label :discard_avg
+    = f.text_field :discard_avg
+  .field
+    = f.label :time
+    = f.date_select :time
+  .field
+    = f.label :comment
+    = f.text_area :comment
+  .field
+    = f.label :weeks
+    = f.number_field :weeks
+  .field
+    = f.label :device_port
+    = f.text_field :device_port
+  .field
+    = f.label :device_portqueue
+    = f.text_field :device_portqueue
+  .field
+    = f.label :service
+    = f.text_field :service
+  .field
+    = f.label :tx_provider
+    = f.text_field :tx_provider
+  .actions
+    = f.submit 'Save'

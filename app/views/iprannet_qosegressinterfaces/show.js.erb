@@ -1,0 +1,52 @@
+var ranges = {
+           'Hoy': [moment(), moment()],
+           'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Últimos 7 Días': [moment().subtract(6, 'days'), moment()],
+           'Últimos 30 Día': [moment().subtract(29, 'days'), moment()],
+           'Este mes': [moment().startOf('month'), moment().endOf('month')],
+           'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+};
+
+$("#reportrange").daterangepicker({
+    timePicker: true,
+    startDate: moment("<%= l @start_date, format: '%Y %m %d' %>"),
+    endDate: moment("<%= l @end_date, format: '%Y %m %d' %>"),
+    ranges: ranges,
+    alwaysShowCalendars: true,
+    timePicker24Hour: true,
+    locale: {
+      format: 'DD/M hh:mm A'
+    }
+  }, function(start, end, label) {
+  $("#start").val(start.format('YYYY-MM-DD'));
+  $("#end").val(end.format('YYYY-MM-DD'));
+
+ 	$("form").submit();
+});
+
+
+google.charts.load('current', {'packages':['line']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+
+var data = new google.visualization.DataTable();
+data.addColumn('number', 'Day');
+data.addColumn('number', 'Guardians of the Galaxy');
+data.addColumn('number', 'The Avengers');
+
+data.addRows("#chard_discard_test");
+
+var options = {
+  chart: {
+    title: 'Box Office Earnings in First Two Weeks of Opening',
+    subtitle: 'in millions of dollars (USD)'
+  },
+  width: 900,
+  height: 500
+};
+
+var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+chart.draw(data, google.charts.Line.convertOptions(options));
+}

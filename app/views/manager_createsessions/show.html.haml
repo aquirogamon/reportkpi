@@ -1,0 +1,39 @@
+%div.container.margin-top-10
+	.row.col-md-3
+		= form_tag manager_createsessions_show_path, method: :get do
+			.form-group
+			= text_field_tag :name_reflector, params[:name_reflector], class: "form-control", placeholder: "Nombre del Equipo"
+			.form-group
+			= text_field_tag :ip_reflector, params[:ip_reflector], class: "form-control", placeholder: "IP Reflector"
+			.form-group
+			= select_tag :accediandevice_id, options_from_collection_for_select(Accediandevice.all, "id", "name_device", params[:accediandevice_id]), prompt: "VCX", class: "form-control"
+			.form-group
+			= select_tag :type_twamp,  options_for_select([ "TWAMP Control", "TWAMP Light" ]), prompt: "Tipo de TWAMP", class: "form-control"
+			= submit_tag "Crear Sessión", class: "btn btn-primary btn-md margin-top-10"
+			= link_to 'Borrar Campos', manager_createsessions_show_path, class: 'btn btn-success btn-md margin-top-10'
+
+	.col-md-9
+		.text-left.col-md-8.margin-top-10
+			%p
+				%b Estado del Reflector: 
+				- if @name_reflector != nil
+					%b.text-danger #{ManagerSession.id_endpoint(@name_reflector)}
+				- else
+					%b
+		.text-left.col-md-8.margin-top-20
+			%p
+				%b Estado de la Sesión (AF12): 
+				- if @name_reflector != nil
+					%b.text-danger #{ManagerSession.id_session(@name_session_af12)}
+				- else
+					%b
+		.text-left.col-md-8.margin-top-20
+			%p
+				%b Estado de la Sesión (EF): 
+				- if @name_reflector != nil
+					%b.text-danger #{ManagerSession.id_session(@name_session_ef)}
+				- else
+					%b
+
+%div.container.margin-top-10
+	= link_to 'Ver las Sesiones', manager_sessions_path, class: 'btn btn-success btn-md margin-top-10'

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sesiones">
+    <Table>
+      <Row ss:Height="20">
+        <Cell><Data ss:Type="String">Nombre de Equipo</Data></Cell>
+        <Cell><Data ss:Type="String">SAP</Data></Cell>
+        <Cell><Data ss:Type="String">Cola de Servicio</Data></Cell>
+        <Cell><Data ss:Type="String">Trafico (Mbps)</Data></Cell>
+        <Cell><Data ss:Type="String">Descarte (Mbps)</Data></Cell>
+        <Cell><Data ss:Type="String">Descarte AVG (Mbps)</Data></Cell>
+      </Row>
+    <% @iprannet_qosegressinterfaces_xls.each do |iprannet_qosegressinterface| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= iprannet_qosegressinterface.device %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= iprannet_qosegressinterface.sap %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= iprannet_qosegressinterface.queueId %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= iprannet_qosegressinterface.bps_max %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= iprannet_qosegressinterface.discard %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= iprannet_qosegressinterface.discard_avg %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

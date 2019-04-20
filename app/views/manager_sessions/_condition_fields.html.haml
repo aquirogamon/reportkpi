@@ -1,0 +1,8 @@
+.form-inline.field
+  = f.attribute_fields do |a|
+    = a.attribute_select({}, :class => 'form-control')
+  = f.predicate_select({:only => [:cont, :not_cont, :eq, :not_eq]}, :class => 'form-control')
+  = f.value_fields do |v|
+    = v.text_field(:value, :class => 'form-control search-field')
+  = link_to "Eliminar", '#', class: "remove_fields btn btn-sm btn-info row_spacer"
+.row_spacer

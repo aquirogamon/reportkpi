@@ -1,0 +1,93 @@
+.row.margin-top-20
+	.col-md-1
+	.col-md-10
+		%h3
+			Editar los comentarios y fechas de:
+			%small
+				= @ipranedge_interface.deviceindex
+
+
+.row.margin-top-00
+	.col-md-12.table-responsive
+		%table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10
+			%thead
+				%tr
+					%th.text-center Nombre del Equipo A
+					%th.text-center Equipo A
+					%th.text-center Puerto A
+					%th.text-center Descipción
+					%th.text-center Capacidad (Mbps)
+					%th.text-center Tipo de Puerto
+					%th.text-center Nombre del Equipo B
+					%th.text-center Equipo B
+					%th.text-center Puerto B
+					%th.text-center 
+						Max_Mbps
+						%br
+						= @ipranedge_interface.created_at.strftime("Sem_%U")
+					%th.text-center 
+						\%
+						%br
+						= @ipranedge_interface.created_at.strftime("Sem_%U")
+					%th.text-center.info 
+						RX Mbps
+						%br
+						= @ipranedge_interface.created_at.strftime("Sem_%W")
+					%th.text-center.info 
+						TX Mbps
+						%br
+						= @ipranedge_interface.created_at.strftime("Sem_%W")
+					%th.text-center.info 
+						\%
+						%br
+						= @ipranedge_interface.created_at.strftime("Sem_%W")
+					%th.text-center
+						Crecimiento
+
+			%tbody
+				%tr
+					%td= @ipranedge_interface.name_devicea
+					%td= @ipranedge_interface.devicea
+					%td= @ipranedge_interface.porta
+					%td= @ipranedge_interface.descriptiona
+					%td= @ipranedge_interface.egressRate
+					%td= @ipranedge_interface.speed
+					%td= @ipranedge_interface.name_deviceb
+					%td= @ipranedge_interface.deviceb
+					%td= @ipranedge_interface.portb
+					%td= @ipranedge_interface.last_bps_max
+
+					- if @ipranedge_interface.last_status > 85.00
+						%td.danger= @ipranedge_interface.last_status
+					-elsif @ipranedge_interface.last_status > 75.00 and @ipranedge_interface.last_status < 84.999
+						%td.warning= @ipranedge_interface.last_status
+					- else
+						%td= @ipranedge_interface.last_status
+
+					%td= @ipranedge_interface.gbpsrx
+					%td= @ipranedge_interface.gbpstx
+
+					- if @ipranedge_interface.status > 85.00
+						%td.danger= @ipranedge_interface.status
+					-elsif @ipranedge_interface.status > 75.00 and @ipranedge_interface.status < 84.999
+						%td.warning= @ipranedge_interface.status
+					- else
+						%td= @ipranedge_interface.status
+
+					- if @ipranedge_interface.crecimiento > 85.00
+						%td.danger= @ipranedge_interface.crecimiento
+					-elsif @ipranedge_interface.crecimiento > 75.00 and @ipranedge_interface.crecimiento < 84.999
+						%td.warning= @ipranedge_interface.crecimiento
+					- else
+						%td= @ipranedge_interface.crecimiento
+
+%div.col-md-4.margin-top-20
+	%p
+		%b Semanas con alta ocupación:
+		= @ipranedge_interface.weeks
+	= render 'form'
+
+	.margin-top-20
+	= link_to 'Historial', @ipranedge_interface, class: 'btn btn-sm btn-success'
+	= link_to 'Volver', ipranedge_interfaces_path, class: 'btn btn-sm btn-success'
+	.margin-top-20

@@ -1,0 +1,31 @@
+= form_for @sevone_session do |f|
+  - if @sevone_session.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@sevone_session.errors.count, "error")} prohibited this sevone_session from being saved:"
+      %ul
+        - @sevone_session.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :session_name
+    = f.text_field :session_name
+  .field
+    = f.label :session_id
+    = f.number_field :session_id
+  .field
+    = f.label :object_name
+    = f.text_field :object_name
+  .field
+    = f.label :object_id
+    = f.number_field :object_id
+  .field
+    = f.label :device_name
+    = f.text_field :device_name
+  .field
+    = f.label :device_id
+    = f.number_field :device_id
+  .field
+    = f.label :device_elemets
+    = f.number_field :device_elemets
+  .actions
+    = f.submit 'Save'

@@ -1,0 +1,31 @@
+def update_device
+IpranedgeInterface.where(devicea: "AYA-POP-DN01").update(name_devicea: "Ayacucho - POP")
+IpranedgeInterface.where(devicea: "LIM-HIJ-DN01").update(name_devicea: "Lima - Hijos de Herusalen")
+IpranedgeInterface.where(devicea: "CJM-DAG-DN01").update(name_devicea: "Cajamarca - Dorsal Agopiti")
+IpranedgeInterface.where(devicea: "ARQ-PDI-DN01").update(name_devicea: "Arequipa - PDI")
+IpranedgeInterface.where(devicea: "LLB-TRJ-CN01").update(name_devicea: "La Libertad - Trujillo")
+IpranedgeInterface.where(devicea: "ARQ-ATQ-DN01").update(name_devicea: "Arequipa - Atiquipa")
+IpranedgeInterface.where(devicea: "ACH-EPN-DN01").update(name_devicea: "Ancash - El Pinar")
+IpranedgeInterface.where(devicea: "CUZ-CTR-DN01").update(name_devicea: "Cuzco - La Cultura")
+IpranedgeInterface.where(devicea: "ICA-PDI-DN02").update(name_devicea: "Ica - PDI")
+
+IpranedgeInterface.where(devicea: "ARQ-MGT-DN01").update(name_devicea: "Arequipa - Mogotes")
+IpranedgeInterface.where(devicea: "PNO-JCC-DN01").update(name_devicea: "Puno - Juliaca Centro")
+IpranedgeInterface.where(devicea: "PIU-PPR-DN01").update(name_devicea: "Piura - PDI")
+IpranedgeInterface.where(devicea: "HNC-HNC-DN01").update(name_devicea: "Huanuco - Huanuco")
+IpranedgeInterface.where(devicea: "LIM-SVC-DN01").update(name_devicea: "Lima - San Vicente de Canete")
+IpranedgeInterface.where(devicea: "ACH-MGG-DN01").update(name_devicea: "Ancash - Meigg")
+IpranedgeInterface.where(devicea: "ACH-PDI-DN01").update(name_devicea: "Ancash - PDI")
+IpranedgeInterface.where(devicea: "HNC-CDS-DN01").update(name_devicea: "Huanuco - Cerro Divisora")
+
+IpranedgeInterface.where(devicea: "JUN-PDI-DN01").update(name_devicea: "Junin - PDI")
+IpranedgeInterface.where(devicea: "ICA-PDI-DN01").update(name_devicea: "Ica - PDI")
+IpranedgeInterface.where(devicea: "HNV-SBB-DN01").update(name_devicea: "Huancavelica - Santa Barbara")
+IpranedgeInterface.where(devicea: "AYA-AYM-DN01").update(name_devicea: "Ayacucho - Ayacucho Mirador")
+IpranedgeInterface.where(devicea: "LLB-PDI-DN01").update(name_devicea: "La Libertad - PDI")
+IpranedgeInterface.where(devicea: "LBY-CMO-DN01").update(name_devicea: "Lambayeque - Cerro Molino")
+IpranedgeInterface.where(devicea: "APM-ABC-DN01").update(name_devicea: "Apurimac - Abancay")
+IpranedgeInterface.where(devicea: "ACH-PAC-DN01").update(name_devicea: "Ancash - Pacifico")
+IpranedgeInterface.where(devicea: "AYA-JMA-DN01").update(name_devicea: "Ayacucho - Jose Maria Arguedas")
+end
+update_device

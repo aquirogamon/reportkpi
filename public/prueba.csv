@@ -1,0 +1,8 @@
+Device,Host,Index,Transporte(Gbps),Servicio,Router,ubicacion
+rMPLSCorePolo1_2,10.235.0.79,62,0,CORE,CORE - Polo1_2,Core Lima
+rMPLSArequipa2,10.235.2.31,33,,0,CORE,CORE - Arequipa3,PE Arequipa
+rMPLSCoreArequipa2,10.235.3.32,37,0,CORE,CORE - Arequipa2,Core Arequipa
+rMPLSCoreArequipa2,10.235.3.32,100,0,CORE,CORE - Arequipa2,Core Arequipa
+rMPLSCoreArequipa2,10.235.3.32,500,0,CORE,CORE - Arequipa2,Core Arequipa
+ABC,10.2.3.32,500,0,CORE,CORE - Arequipa2,Core Arequipa
+ABC,10.2.3.32,500,0,CORE,CORE - Arequipa2,Core Arequipa

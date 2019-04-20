@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Site name:
+  = @accediandevice.site_name
+%p
+  %b Name device:
+  = @accediandevice.name_device
+%p
+  %b Type device:
+  = @accediandevice.type_device
+
+= link_to 'Edit', edit_accediandevice_path(@accediandevice)
+\|
+= link_to 'Back', accediandevices_path

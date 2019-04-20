@@ -1,0 +1,162 @@
+%div.container
+  %h3.margin-top-10
+    Performance de la Sesión
+    %b.text-danger #{@manager_session.name_session}
+
+.margin-top-20
+%div.container
+  .row.col-md-3
+    %i.fa.fa-calendar
+    %b Ingresar rango de busqueda
+    %input#reportrange{:style => "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%", :type => "text"}/
+
+
+
+.margin-top-30
+%div.container
+= line_chart [{name: "Delay RT AVG", data: @chart_delay_50}, {name: "Delay AVG P2R", data: @chart_dp50_p2r}, {name: "Delay AVG R2P", data: @chart_dp50_r2p}], suffix: "ms", legend: true, xtitle: "Fecha - Hora", ytitle: "Delay AVG", download: {filename: "Delay AVG - #{@manager_session.name_session}"}, adapter: "google", legend: "bottom", code: true
+
+.margin-top-50
+%div.container
+= line_chart [{name: "Delay RT Max", data: @chart_delay_max}, {name: "Delay Max P2R", data: @chart_dpmax_p2r}, {name: "Delay Max R2P", data: @chart_dpmax_r2p}], suffix: "ms", legend: true, xtitle: "Fecha - Hora", ytitle: "Delay Max", download: {filename: "Delay MAX - #{@manager_session.name_session}"}, adapter: "google", legend: "bottom", code: true
+
+.margin-top-50
+%div.container
+= line_chart [{name: "Paquetes Perdidos P2R", data: @chart_loss_p2r}, {name: "Paquetes Perdidos R2P", data: @chart_loss_r2p}], suffix: "%", legend: true, xtitle: "Fecha - Hora", ytitle: "% Paquetes Perdidos", download: {filename: "% Paquetes Perdidos - #{@manager_session.name_session}"}, adapter: "google", legend: "bottom"
+
+.margin-top-20
+%div.container
+  .row.col-md-4
+    %p
+      - if @manager_session.lossPercent_p2r_p95 != nil
+        - if @manager_session.lossPercent_p2r_p95 > 1.0
+          %b.text-danger #{@manager_session.lossPercent_p2r_p95}%
+        - else
+          %b #{@manager_session.lossPercent_p2r_p95}%
+        %b Paquetes Perdidos P2R
+      - else
+
+.margin-top-20
+%div.container
+  .row.col-md-4
+    %p
+      - if @manager_session.lossPercent_p2r_p95 != nil
+        - if @manager_session.lossPercent_r2p_p95 > 1.0
+          %b.text-danger #{@manager_session.lossPercent_r2p_p95}%
+        - else
+          %b #{@manager_session.lossPercent_r2p_p95}%
+        %b Paquetes Perdidos R2P
+      - else
+
+.margin-top-30
+%div.container
+  .row.col-md-2
+    %p
+      %b Ip endpoint:
+    %p
+      %b Name endpoint:
+    %p
+      %b Product endpoint:
+    %p
+      %b State endpoint:
+    %p
+      %b Type endpoint:
+    %p
+      %b Capability:
+    %p
+      %b Port endpoint:
+    %p
+      %b Tos endpoint:
+    %p
+      %b Name session:
+    %p
+      %b Sessiontype:
+    %p
+      %b Dstendpoint:
+    %p
+      %b Dstport:
+    %p
+      %b Srcendpoint:
+    %p
+      %b Srcifc:
+    %p
+      %b Srcport:
+    %p
+      %b State session:
+    %p
+      %b Interval session:
+    %p
+      %b Tos session:
+    %p
+      %b Payloadsize session:
+    %p
+      %b Pps session:
+    %p
+      %b Type port:
+    %p
+      %b Sla:
+    %p
+      %b Status device:
+    %p
+      %b Ip interface vcx:
+  .row.col-md-10
+    %p
+      = best_in_place @manager_session, :ip_endpoint, as: :input, inner_class: "form-control"
+    %p
+      = @manager_session.dstEndpoint
+    %p
+      = @manager_session.product_endpoint
+    %p
+      = @manager_session.state_endpoint
+    %p
+      = @manager_session.type_endpoint
+    %p
+      = @manager_session.capability
+    %p
+      = @manager_session.port_endpoint
+    %p
+      = @manager_session.tos_endpoint
+    %p
+      = @manager_session.name_session
+    %p
+      = @manager_session.sessionType
+    %p
+      = @manager_session.dstEndpoint
+    %p
+      = @manager_session.dstPort
+    %p
+      = @manager_session.srcEndpoint
+    %p
+      = @manager_session.srcIfc
+    %p
+      = @manager_session.srcPort
+    %p
+      = @manager_session.state_session
+    %p
+      = @manager_session.interval_session
+    %p
+      = @manager_session.tos_session
+    %p
+      = @manager_session.payloadsize_session
+    %p
+      = @manager_session.pps_session
+    %p
+      = @manager_session.type_port
+    %p
+      = @manager_session.sla
+    %p
+      = @manager_session.status_device
+    %p
+      = @manager_session.ip_interface_vcx
+
+%div.container
+  .margin-top-20
+  = link_to 'Volver', manager_sessions_path, class: 'btn btn-sm btn-success'
+  .margin-top-20
+    = form_tag restart_session_id_manager_sessions_path(@manager_session), method: :post do
+      = check_box_tag "manager_session_id", @manager_session.id
+      = submit_tag "Reiniciar Sesión", class: 'btn btn-sm btn-success'
+
+= form_tag @manager_session, method: :get do
+  = hidden_field_tag :start
+  = hidden_field_tag :end

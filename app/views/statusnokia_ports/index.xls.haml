@@ -1,0 +1,23 @@
+%table{:border => 1}
+  %thead
+    %tr
+      %th Equipo
+      %th Puerto
+      %th Tipo de Equipo
+      %th Velocidad Configurada (Mbps)
+      %th Tipo de Puerto
+      %th Descripción
+      %th Status
+      %th Servicios
+
+  %tbody
+    - @statusnokia_ports_all.each do |statusnokia_port|
+      %tr
+        %td= statusnokia_port.device
+        %td= statusnokia_port.port
+        %td= statusnokia_port.type_device
+        %td= statusnokia_port.configurespeed
+        %td= statusnokia_port.speed
+        %td= statusnokia_port.description
+        %td= statusnokia_port.status
+        %td= statusnokia_port.service_all

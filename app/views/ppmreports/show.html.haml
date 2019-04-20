@@ -1,0 +1,60 @@
+.row.margin-top-50
+  .col-md-2
+  .col-md-8
+    %h4
+      Reportes generados desde:
+      %small "Cisco Prime Performance"
+  .col-md-2
+
+.row.margin-top-20
+  .col-md-2
+  .col-md-8
+    %table.table.table-striped.table-bordered.table-condensed.text-center.table-hover
+      %thead
+        %tr.success
+          %th.text-center
+            Nombre
+          %th.text-center
+            Descripción
+      %tbody
+        %tr
+          %td
+            = link_to 'Interfaces Internet', internet_interfaces_path
+          %td
+            Reporte de Utilización de interfaces de Internet
+        %tr
+          %td
+            = link_to 'Interfaces Core', core_interfaces_path
+          %td
+            Utilización de interfaces de Core
+        %tr
+          %td
+            = link_to 'Interfaces Pre-AGG', preagg_interfaces_path
+          %td
+            Utilización de interfaces de Pre-AGG Cisco
+        %tr
+          %td
+            = link_to 'Interfaces de Servidores de Caché', dashboard_path
+          %td
+            Utilización de interfaces de los Servidores de Caché (Google, Facebook, Netflix, etc)
+        %tr
+          %td
+            = link_to 'Interfaces Core Mobile', dashboard_path
+          %td
+            Utilización de interfaces de los enlaces de Packet Core (2G, 3G y 4G)
+        %tr
+          %td
+            = link_to 'Servicio de Internet Corporativo', dashboard_path
+          %td
+            Utilización del Servicio de Internet del Cliente Corporativo
+        %tr
+          %td
+            = link_to 'Interfaces de Red Corporativa', dashboard_path
+          %td
+            Utilización de Enlaces de Red Corporativa
+  .col-md-2
+.row.margin-top-10
+  .col-md-2
+  .col-md-8
+    = link_to 'Volver', dashboard_path, class: 'btn btn-sm btn-volver'
+  .col-md-2

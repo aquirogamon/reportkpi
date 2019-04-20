@@ -1,0 +1,75 @@
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    %h3.margin-top-10
+      Reporte de QoS NET_Ingress en los Equipos Nokia
+      = link_to 'Excel', iprannet_qosingressinterfaces_path(format: "xls"), class: 'btn btn-sm btn-warning float-right'
+      - if user_signed_in? && current_user.is_admin_user?
+        = link_to 'CSV', iprannet_qosingressinterfaces_path(format: "csv"), class: 'btn btn-sm btn-warning float-right'
+      .updated
+        Actualizado:
+        - unless IprannetQosingressinterface.last == nil
+          = IprannetQosingressinterface.last.created_at.strftime("%d/%m/%Y %H:%M:%S")
+        - else
+          '-'
+  .col-md-2
+
+.row.margin-top-02
+  .col-md-1
+  .col-md-10
+    .float-left 
+      = link_to 'Volver', ppmreports_path, class: 'btn btn-sm btn-volver'
+
+.row.margin-top-10.search-form-container
+  .col-md-1
+  .col-md-10
+    = search_form_for @search, url: search_iprannet_qosingressinterfaces_path, method: :post, :html => {:class => "form-horizontal form-row"} do |f|
+      = f.condition_fields do |c|
+        = render 'condition_fields', f: c
+      %p= link_to_add_fields "Agregar", f, :condition
+      .form-row.row_spacer.no-margin
+        Ordenar:
+      .form-inline.field
+        .form-row
+          = f.sort_fields do |s|
+            = s.sort_select({}, :class => 'form-control')
+      .form-row
+        .actions
+          = f.submit "Buscar", class: 'btn btn-sm btn-success row_spacer'
+          = f.submit "Clear", :name => nil, :id => :q_reset, class: 'btn btn-sm btn-info row_spacer'
+
+.row.margin-top-00
+  .col-md-12
+    = will_paginate @iprannet_qosingressinterfaces, renderer: BootstrapPagination::Rails
+    %table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10#myTable
+      %thead
+        %tr
+          %th Nombre de Equipo
+          %th Puerto
+          %th Cola de Servicio
+          %th Tráfico Mbps
+          %th Paquetes Descartados OUT
+          %th.text-center.cursor{:onclick => "sortTableNumeric (5)"}
+            AVG Paquetes Descartados OUT
+          %th Medio de Transmisión
+          %th Servicio
+          %th Fecha de Solución
+          %th Comentario
+          %th
+
+      %tbody
+        - @iprannet_qosingressinterfaces.each do |iprannet_qosingressinterface|
+          %tr
+            %td= iprannet_qosingressinterface.device
+            %td= iprannet_qosingressinterface.port
+            %td= iprannet_qosingressinterface.queueId
+            %td= iprannet_qosingressinterface.bps_max
+            %td= iprannet_qosingressinterface.discard
+            %td= iprannet_qosingressinterface.discard_avg
+            %td= iprannet_qosingressinterface.tx_provider.name
+            %td= iprannet_qosingressinterface.service
+            %td= iprannet_qosingressinterface.time
+            %td= iprannet_qosingressinterface.comment
+            %td= link_to 'Mostrar Historial', iprannet_qosingressinterface, target: :_blank
+
+%br

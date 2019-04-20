@@ -1,0 +1,92 @@
+.row.margin-top-30
+  .col-md-1
+  .col-md-10
+    %h3
+      Reportes de Interfaces de CPE de CAC
+      = link_to 'PDF', cpecac_interfaces_path(format: "pdf"), class: 'btn btn-sm btn-warning float-right'
+      = link_to 'Excel', cpecac_interfaces_path(format: "xls"), class: 'btn btn-sm btn-warning float-right'
+      .updated
+        Actualizado:
+        - unless InternetInterface.last == nil
+          = InternetInterface.maximum(:created_at).strftime("Semana %U-%Y")
+        - else
+          '-'
+  .col-md-1
+
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    .float-left 
+      = link_to 'Volver', ppmreports_path, class: 'btn btn-sm btn-success'
+  .col-md-2
+
+= form_tag destroy_multiple_cpecac_interfaces_path, method: :delete do
+  .row.margin-top-00
+    .col-md-12
+      %table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10#myTable
+        %thead
+          %tr
+            %th.text-center.cursor
+              Equipo
+            %th.text-center
+              Puerto
+            %th.text-center.cursor
+              Servicio
+            %th.text-center.cursor
+              Capacidad
+            %th.text-center.info
+              Max_Gbps
+              %br
+              = CpecacInterface.last.created_at.strftime("Sem_%U")
+            %th.text-center.cursor.info
+              \%
+              %br
+              = CpecacInterface.last.created_at.strftime("Sem_%U")
+            %th.text-center
+              Comentario
+            %th.text-center
+              Fecha de Solución
+            %th
+            %th
+            %th
+            - if user_signed_in? && current_user.is_admin_user?
+              %th
+
+        %tbody
+          - unless CpecacInterface.last == nil
+            - @cpecac_interfaces.each do |cpecac_interface|
+              %tr
+                %td= cpecac_interface.device
+                %td= cpecac_interface.port
+                %td= cpecac_interface.servicio
+                %td= cpecac_interface.egressRate
+                %td= cpecac_interface.bps_max
+
+                - if cpecac_interface.status > 85.00
+                  %td.danger= cpecac_interface.status
+                -elsif cpecac_interface.status > 75.00 and cpecac_interface.status < 84.999
+                  %td.warning= cpecac_interface.status
+                - else
+                  %td= cpecac_interface.status
+
+                %td= cpecac_interface.comment
+                %td= cpecac_interface.time
+                %td= link_to 'Historial x Semana', cpecac_interface, target: :_blank
+                %td= link_to "Historial Semana #{cpecac_interface.created_at.strftime("%U")}", "http://172.19.216.20:8000/apiclient/ember/index.jsp#/Inventory/Snapshot/MonitoringInterface/#{cpecac_interface.index_opm}&graphName=traffic&period=Lastweek", target: :_blank
+                %td= link_to 'Editar', edit_cpecac_interface_path(cpecac_interface), target: :_blank
+                - if user_signed_in? && current_user.is_admin_user?
+                  %td= link_to 'Borrar', cpecac_interface, method: :delete, data: { confirm: 'Estás seguro?' }
+                  %td= check_box_tag "cpecac_interface_ids[]", cpecac_interface.id
+      - if user_signed_in? && current_user.is_admin_user?
+        .row.margin-top-10
+          .col-md-1
+          .col-md-10
+            .float-left 
+              = submit_tag "Borrar Seleccionados", class: 'btn btn-sm btn-success'
+
+.margin-top-20
+
+%br
+
+
+.margin-top-20

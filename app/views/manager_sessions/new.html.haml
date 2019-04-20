@@ -1,0 +1,12 @@
+.row.margin-top-20
+	.col-md-1
+	.col-md-10
+		%h3
+			Crear una nueva sesión TWAMP
+
+%div.col-md-4
+	= render 'form_new'
+
+	.margin-top-20
+	= link_to 'Volver', manager_sessions_path, class: 'btn btn-sm btn-success'
+	.margin-top-20

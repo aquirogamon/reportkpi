@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP:Header>
+      <header xmlns="xmlapi_1.0">
+         <security>
+            <user>C14593</user>
+            <password hashed="false">Claro348!</password>
+         </security>
+         <requestID>aquiroga:0001</requestID>
+      </header>
+   </SOAP:Header>
+
+   <SOAP:Body>
+      <find xmlns="xmlapi_1.0">
+         <fullClassName>vprn.L3AccessInterface</fullClassName>
+         <filter>
+         </filter>
+         <resultFilter>
+            <attribute>nodeName</attribute>
+            <attribute>serviceId</attribute>
+            <attribute>serviceType</attribute>
+            <attribute>portIdentifyingName</attribute>
+            <attribute>operationalState</attribute>
+            <attribute>portName</attribute>
+            <attribute>displayedName</attribute>
+            <attribute>objectFullName</attribute>
+            <children/>
+         </resultFilter>
+      </find>
+   </SOAP:Body>
+</SOAP:Envelope>

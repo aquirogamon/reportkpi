@@ -1,0 +1,25 @@
+%h1 Listing accediandevices
+
+%table
+  %thead
+    %tr
+      %th Site name
+      %th Name device
+      %th Type device
+      %th
+      %th
+      %th
+
+  %tbody
+    - @accediandevices.each do |accediandevice|
+      %tr
+        %td= accediandevice.site_name
+        %td= accediandevice.name_device
+        %td= accediandevice.type_device
+        %td= link_to 'Show', accediandevice
+        %td= link_to 'Edit', edit_accediandevice_path(accediandevice)
+        %td= link_to 'Destroy', accediandevice, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Accediandevice', new_accediandevice_path

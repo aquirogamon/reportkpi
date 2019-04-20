@@ -1,0 +1,22 @@
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawVisualization);
+
+function drawVisualization() {
+  // Some raw data (not necessarily accurate)
+  var chart_all_tierone_local = <%= @chart_all_tierone.inspect.html_safe %>;
+      chart_telxius_local = <%= @chart_telxius.inspect.html_safe %>;
+      chart_centurylink_local = <%= @chart_centurylink.inspect.html_safe %>;
+      chart_tisparkle_local = <%= @chart_tisparkle.inspect.html_safe %>;
+  var data = google.visualization.arrayToDataTable(chart_all_tierone_local, chart_telxius_local, chart_centurylink_local, chart_tisparkle_local);
+
+  var options = {
+    title : 'Monthly Coffee Production by Country',
+    vAxis: {title: 'Cups'},
+    hAxis: {title: 'Años'},
+    seriesType: 'bars',
+    series: {1: {type: 'line'}}
+  };
+
+  var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+  chart.draw(data, options);
+}

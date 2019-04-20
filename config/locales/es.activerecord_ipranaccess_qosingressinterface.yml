@@ -1,0 +1,14 @@
+es:
+  activerecord:
+    attributes:
+      ipranaccess_qosingressinterface:
+        device: "Nombre de Equipo"
+        sap: "SAP (SubInterface)"
+        queueId: "Cola de Servicio"
+        bps_max: "Tráfico Mbps"
+        discard: "Paquetes Descartados IN"
+        discard_avg: "AVG Paquetes Descartados IN"
+        time: "Fecha de Solución"
+        comment: "Comentario"
+        weeks: "Semanas"
+        tx_provider_id: "Medio de TX"

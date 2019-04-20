@@ -1,0 +1,94 @@
+.row.margin-top-30
+  .col-md-1
+  .col-md-10
+    %h3
+      Porcentaje de Utilización de Interface de equipo SR-7750
+      = link_to 'PDF', ipranedge_interfaces_path(format: "pdf"), class: 'btn btn-sm btn-warning float-right'
+      = link_to 'Excel', ipranedge_interfaces_path(format: "xls"), class: 'btn btn-sm btn-warning float-right'
+      .updated
+        Actualizado
+        - unless IpranedgeInterface.last == nil
+          = IpranedgeInterface.maximum(:created_at).strftime("Semana %U-%Y")
+        - else
+          '-'
+  .col-md-1
+
+.row.margin-top-10
+  .col-md-1
+  .col-md-10
+    .float-left 
+      = link_to 'Volver', ppmreports_path, class: 'btn btn-sm btn-success'
+  .col-md-2
+
+.row.margin-top-00
+  .col-md-12
+    %table.table.table-striped.table-bordered.table-condensed.table-hover.text-center.margin-top-10
+      %thead
+        %tr
+          %th.text-center Nombre del SITE A
+          %th.text-center Equipo A
+          %th.text-center Puerto A
+          %th.text-center Descipción
+          %th.text-center Capacidad (Mbps)
+          %th.text-center Tipo de Puerto
+          %th.text-center Nombre del SITE B
+          %th.text-center Equipo B
+          %th.text-center Puerto B
+          %th.text-center.success Max_Gbps (Anterior)
+          %th.text-center.success % (Anterior)
+          %th.text-center.info Bps max
+          %th.text-center.info %
+          %th.text-center Crecimiento
+          %th.text-center Comentario
+          %th.text-center Área Responsable
+          %th.text-center Fecha de Solución
+          %th
+          %th
+            - if user_signed_in? && current_user.is_admin_user?
+              %th
+
+      %tbody
+        - @ipranedge_interfaces.each do |ipranedge_interface|
+          %tr
+            %td= ipranedge_interface.name_devicea
+            %td= ipranedge_interface.devicea
+            %td= ipranedge_interface.porta
+            %td= ipranedge_interface.descriptiona
+            %td= ipranedge_interface.egressRate
+            %td= ipranedge_interface.speed
+            %td= ipranedge_interface.name_deviceb
+            %td= ipranedge_interface.deviceb
+            %td= ipranedge_interface.portb
+            %td= ipranedge_interface.last_bps_max
+
+            - if ipranedge_interface.last_status > 85.00
+              %td.danger= ipranedge_interface.last_status
+            - elsif ipranedge_interface.last_status > 75.00 and ipranedge_interface.last_status < 84.999
+              %td.warning= ipranedge_interface.last_status
+            - else
+              %td= ipranedge_interface.last_status
+
+            %td= ipranedge_interface.bps_max
+
+            - if ipranedge_interface.status > 85.00
+              %td.danger= ipranedge_interface.status
+            - elsif ipranedge_interface.status > 75.00 and ipranedge_interface.status < 84.999
+              %td.warning= ipranedge_interface.status
+            - else
+              %td= ipranedge_interface.status
+
+            - if ipranedge_interface.crecimiento > 15.00
+              %td.danger= ipranedge_interface.crecimiento
+            -elsif ipranedge_interface.crecimiento < -15.00
+              %td.danger= ipranedge_interface.crecimiento
+            - else
+              %td= ipranedge_interface.crecimiento
+
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, ipranedge_interface, :comment, as: :textarea, inner_class: "form-control"
+            %td= ipranedge_interface.provider.name
+            %td= best_in_place_if user_signed_in? && current_user.is_editor_user?, ipranedge_interface, :time, as: :date, inner_class: "form-control"
+            %td= link_to 'Historial', ipranedge_interface, target: :_blank
+            %td= link_to 'Editar', edit_ipranedge_interface_path(ipranedge_interface), target: :_blank
+            %td= link_to 'Borrar', ipranedge_interface, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br

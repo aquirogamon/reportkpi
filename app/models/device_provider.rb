@@ -1,0 +1,2 @@
+class DeviceProvider < ApplicationRecord
+end
